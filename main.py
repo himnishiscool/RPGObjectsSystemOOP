@@ -1,3 +1,5 @@
+import random
+
 def getInfo():
     name = input("What is your name?: ")
 
@@ -9,13 +11,13 @@ def getInfo():
 
 class Player():
 
-    def __init__(self, name, age, health, energy, fighterType, weaponUsing):
+    def __init__(self, name, age, health, energy, fighterType):
         self.name = name
         self.age = age
         self.health = health
         self.energy = energy
         self.fighterType = fighterType
-        self.weaponUsing = Fists.name
+        self.weaponUsing = fists.name
         self.inventory = []
 
     def printStats(self):
@@ -34,18 +36,32 @@ class Player():
 
     def attack(self, weapon, enemy):
         print(f"{self.name} attacked {enemy.name}")
-        enemy.health - weapon.damage
+        hitChance = random.randint(0, 100)
+        if hitChance - weapon.accuracy <= 0 and self.energy >= weapon.energyUsed:
+            print("Hit Successful!")
+            enemy.health - weapon.damage
+            weapon.energyUsed -= self.energy
+        else:
+            print("Hit Failed...")
 
-class Item():
+    def useHeal(self, heal):
+        print(f"Nice! Using {heal.name} for {heal.healAmount} HP")
+        self.health += heal.healAmount
 
-    def __init__(self, name):
+class Weapon():
+
+    def __init__(self, name, damage, durability, energyUsed, accuracy):
         self.name = name
-
-class Weapon(Item):
-
-    def __init__(self, damage, durability, accuracy):
         self.damage = damage
         self.durability = durability
+        self.energyUsed = energyUsed
         self.accuracy = accuracy
 
-Fists = Weapon("Fists", 10, 999999999999, 100)
+class Heal:
+    def __init__(self, name, healAmount, uses):
+        self.name = name
+        self.healAmount = healAmount
+        self.uses = uses
+
+fists = Weapon("Fists", 10, 999999999999, 5, 100)
+player = Player("Akbar", 23, 67, 67, "Aura Farmer")
