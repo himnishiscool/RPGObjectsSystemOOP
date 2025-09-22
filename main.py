@@ -1,23 +1,14 @@
 import random
 
-def getInfo():
-    name = input("What is your name?: ")
-
-    try:
-        age = int(input("What is your age?: "))
-    except Exception:
-        print("Sorry, you didn't enter an age.")
-        getInfo()
-
 class Player():
 
-    def __init__(self, name, age, health, energy, fighterType):
+    def __init__(self, name, age, health, energy, fighterType, weaponUsing):
         self.name = name
         self.age = age
         self.health = health
         self.energy = energy
         self.fighterType = fighterType
-        self.weaponUsing = fists.name
+        self.weaponUsing = weaponUsing
         self.inventory = []
 
     def printStats(self):
@@ -64,4 +55,29 @@ class Heal:
         self.uses = uses
 
 fists = Weapon("Fists", 10, 999999999999, 5, 100)
-player = Player("Akbar", 23, 67, 67, "Aura Farmer")
+staff = Weapon("Staff", 15, 999999999999, 8, 95)
+bow = Weapon("Bow", 20, 999999999999, 15, 85)
+fighterTypes = [{"name": "Mage", "health": 80, "energy": 120, "weapon": staff}, {"name": "Brute", "health": 150, "energy": 150, "weapon": fists}, {"name": "Archer", "health": 90, "energy": 90, "weapon": bow}]
+
+def getInfo():
+    name = input("What is your name?: ")
+
+    try:
+        age = int(input("What is your age?: "))
+        for index, fighterType in enumerate(fighterTypes):
+            print(f"{index + 1}. {fighterType["name"]}")
+        fighterType = input("What is your fighter type?: ")
+        if fighterType == "Mage" or "mage" or 1:
+            player = Player(name, age, fighterTypes[0]["health"], fighterTypes[0]["energy"], fighterTypes[0]["name"], fighterTypes[0]["weapon"])
+        elif fighterType == "Brute" or "brute" or 2:
+            player = Player(name, age, fighterTypes[1]["health"], fighterTypes[1]["energy"], fighterTypes[1]["name"], fighterTypes[1]["weapon"])
+        elif fighterType == "Archer" or "archer" or 3:
+            player = Player(name, age, fighterTypes[2]["health"], fighterTypes[2]["energy"], fighterTypes[2]["name"], fighterTypes[2]["weapon"])
+        else:
+            print("Invalid Intent: Please enter a given fighter type.")
+            getInfo()
+    except Exception:
+        print("Invalid Intent: Please double check your responses.")
+        getInfo()
+
+getInfo()
